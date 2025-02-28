@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, FlatList, ActivityIndicator, Pressable, StyleSheet } from "react-native";
+import { View, Text, FlatList, ActivityIndicator, Pressable, StyleSheet, RefreshControl } from "react-native";
 import { useRouter } from "expo-router";
-import { getProducts, deleteProduct } from "@/utils/firestore";
+import { getProducts } from "@/utils/firestore";
 // import { Ionicons } from "@expo/vector-icons";
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/config/firebaseConfig';
@@ -14,7 +14,23 @@ export default function ProductsScreen() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = React.useState(false);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setRefreshing(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -36,7 +52,7 @@ export default function ProductsScreen() {
     checkUser();
   }, []);
 
-  
+
   useFocusEffect(
     useCallback(() => {
       let isActive = true;
@@ -44,11 +60,11 @@ export default function ProductsScreen() {
       const fetchProducts = async () => {
         try {
           const data = await getProducts();
-          if (isActive) setProducts(data);
+          setProducts(data);
         } catch (error) {
           console.error(error);
         } finally {
-          if (isActive) setLoading(false);
+          setLoading(false);
         }
       };
   
@@ -79,6 +95,10 @@ export default function ProductsScreen() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => <ProductItem item={item} />}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         ListEmptyComponent={
           <Text style={styles.emptyText}>No products found</Text>
         }

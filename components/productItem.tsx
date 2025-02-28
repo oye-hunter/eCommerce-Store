@@ -15,7 +15,7 @@ interface ProductItemProps {
   // isProductsRoute: boolean;
 }
 
-const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
+const ProductItem: React.FC<ProductItemProps> = ({ item }: { item: ProductItemProps['item'] }) => {
   const router = useRouter();
   const pathname = usePathname();
   const isProductsRoute = pathname.startsWith('/products');

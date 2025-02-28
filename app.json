@@ -3,13 +3,15 @@
     "name": "ecommerce-store",
     "slug": "ecommerce-store",
     "version": "1.0.0",
+    "owner": "hunter47",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "com.hunter47.ecommercestore",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.hunter47.ecommercestore"
     },
     "plugins": [
       "expo-router",
@@ -24,11 +26,18 @@
       ]
     ],
     "android": {
+      "package": "com.hunter47.ecommercestore",
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyD_VVvZR4cX8RWObY-28HijR7p7tEf8Etc",
+          "certificateHash": "8db61544f6c4b8211d98d1575440acf8c1b42489"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.example.ecommercestore"
+      }
     },
     "web": {
       "bundler": "metro",

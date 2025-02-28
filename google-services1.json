@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "27659315254-u7f0o7vp829ik7b9ae2fa4qbenlgars8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hunter47.ecommercestore",
+            "certificate_hash": "8db61544f6c4b8211d98d1575440acf8c1b42489"
+          }
+        },
+        {
           "client_id": "27659315254-umb74fcgshtoo7j5bhs88egecfe7j737.apps.googleusercontent.com",
           "client_type": 3
         }

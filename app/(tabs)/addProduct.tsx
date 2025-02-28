@@ -1,6 +1,6 @@
 // app/(tabs)/addProduct.tsx
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 import { addProduct } from "@/utils/firestore";
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/config/firebaseConfig';
@@ -13,6 +13,7 @@ export default function AddProductScreen() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export default function AddProductScreen() {
   }, []);
 
   const handleAddProduct = async () => {
+    setLoading(true);
     if (!name || !description || !price) return alert("Please fill all fields");
     if (!userId) return alert("Please login first");
     
@@ -48,6 +50,7 @@ export default function AddProductScreen() {
     } catch (error) {
       alert("Error adding product");
     }
+      setLoading(false);
   };
 
   return (
@@ -74,7 +77,11 @@ export default function AddProductScreen() {
         keyboardType="numeric"
       />
       <Pressable style={styles.button} onPress={handleAddProduct}>
-        <Text style={styles.buttonText}>Add Product</Text>
+        {loading ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  <Text style={styles.buttonText}>Add Product</Text>
+                )}
       </Pressable>
     </View>
   );
